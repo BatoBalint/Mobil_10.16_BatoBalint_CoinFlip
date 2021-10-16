@@ -2,6 +2,7 @@ package com.example.coinflip
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -37,8 +38,20 @@ class MainActivity : AppCompatActivity() {
         txtLose = findViewById(R.id.txt_lose)
 
         btnFej.setOnClickListener {
-            Toast("Test");
+            FejTipp()
         }
+
+        btnIras.setOnClickListener {
+            IrasTipp()
+        }
+    }
+
+    fun FejTipp() {
+        Toast.makeText(this, "fej test", Toast.LENGTH_SHORT).show()
+    }
+
+    fun IrasTipp() {
+        Toast.makeText(this, "iras test", Toast.LENGTH_SHORT).show()
     }
 
     fun DefaultSetting() {
