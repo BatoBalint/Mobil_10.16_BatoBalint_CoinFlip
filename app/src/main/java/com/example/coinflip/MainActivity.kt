@@ -143,8 +143,11 @@ class MainActivity : AppCompatActivity() {
 
     fun DefaultSetting() {
         dobasok = 0
+        txtDobas.text = "Dobások: 0"
         win = 0
+        txtWin.text = "Győzelmek: 0"
         lose = 0
+        txtLose.text = "Vereség: 0"
         coinFace = "heads"
         coin.setImageResource(R.drawable.heads)
     }
