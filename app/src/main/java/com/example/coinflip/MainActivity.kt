@@ -1,5 +1,6 @@
 package com.example.coinflip
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
         if (!animationPlaying) {
             var rnd = Random()
             CoinAnimation((rnd.nextInt(5) + 5) * 2)
+            btnFej.setBackgroundColor(Color.GRAY)
+            btnIras.setBackgroundColor(Color.GRAY)
         }
     }
 
@@ -88,7 +91,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun Results() {
-
+        btnFej.setBackgroundColor(resources.getColor(R.color.purple_500))
+        btnIras.setBackgroundColor(resources.getColor(R.color.purple_500))
     }
 
     fun ChangeCoinFace() {
