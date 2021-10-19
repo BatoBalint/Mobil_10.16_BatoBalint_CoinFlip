@@ -1,5 +1,6 @@
 package com.example.coinflip
 
+import android.content.DialogInterface
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     var win = 0
     var lose = 0
     var coinFace = "heads"
+    var userTip = ""
     var animationPlaying = false
 
 
@@ -56,6 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     fun FejTipp() {
         if (!animationPlaying) {
+            userTip = "heads"
             var rnd = Random()
             CoinAnimation((rnd.nextInt(5) + 5) * 2)
             btnFej.setBackgroundColor(Color.GRAY)
@@ -64,7 +68,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun IrasTipp() {
-        Toast.makeText(this, "iras test", Toast.LENGTH_SHORT).show()
+        if (!animationPlaying) {
+            userTip = "tails"
+            var rnd = Random()
+            CoinAnimation((rnd.nextInt(5) + 5) * 2)
+            btnFej.setBackgroundColor(Color.GRAY)
+            btnIras.setBackgroundColor(Color.GRAY)
+        }
     }
 
     fun CoinAnimation(rnd : Int) {
@@ -91,8 +101,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun Results() {
+        if (coinFace == "heads") Toast.makeText(this, "Fej", Toast.LENGTH_SHORT).show()
+        else Toast.makeText(this, "Iras", Toast.LENGTH_SHORT).show()
+        dobasok++
+        txtDobas.text = "Dobások: ${dobasok}"
         btnFej.setBackgroundColor(resources.getColor(R.color.purple_500))
         btnIras.setBackgroundColor(resources.getColor(R.color.purple_500))
+        if (coinFace == userTip) {
+            win++
+            txtWin.text = "Győzelmek: ${win}"
+        } else {
+            lose++
+            txtLose.text = "Vereség: ${lose}"
+        }
+        if (win == 3) CreateAlertDialog("Győzelem")
+        else if (lose == 3) CreateAlertDialog("Vereség")
     }
 
     fun ChangeCoinFace() {
@@ -105,9 +128,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun CreateAlertDialog(title: String) {
+        val myAlert = AlertDialog.Builder(this)
+        myAlert.setTitle(title).setMessage("Szeretne új játékot játszani?").setCancelable(false)
+
+        myAlert.setPositiveButton("Igen", DialogInterface.OnClickListener { dialog, id ->
+            DefaultSetting()
+        }).setNegativeButton("Nem", DialogInterface.OnClickListener {dialog, id ->
+            finishAffinity()
+        })
+
+        myAlert.show()
+    }
+
     fun DefaultSetting() {
         dobasok = 0
         win = 0
         lose = 0
+        coinFace = "heads"
+        coin.setImageResource(R.drawable.heads)
     }
 }
