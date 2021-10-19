@@ -2,11 +2,16 @@ package com.example.coinflip
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var coin : ImageView
@@ -18,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     var dobasok = 0
     var win = 0
     var lose = 0
+    var coinFace = "heads"
 
 
 
@@ -47,11 +53,46 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun FejTipp() {
-        Toast.makeText(this, "fej test", Toast.LENGTH_SHORT).show()
+        CoinAnimation()
     }
 
     fun IrasTipp() {
         Toast.makeText(this, "iras test", Toast.LENGTH_SHORT).show()
+    }
+
+    fun CoinAnimation(rnd : Int) {
+        var speed : Long = 100
+        var tickCounter = 0
+        val timer = object: CountDownTimer((rnd * speed).toLong(), speed) {
+            override fun onTick(millisUntilFinished: Long) {
+                if (tickCounter % 2 == 0) {
+                    coin.animate().scaleX(0.02F).duration = speed/2
+                } else {
+                    if (millisUntilFinished < 4900F) ChangeCoinFace()
+                    coin.animate().scaleX(1F).duration = speed/2
+                }
+                tickCounter++
+            }
+
+            override fun onFinish() {
+                Results()
+            }
+        }
+        timer.start()
+    }
+
+    fun Results() {
+
+    }
+
+    fun ChangeCoinFace() {
+        if (coinFace == "heads") {
+            coin.setImageResource(R.drawable.tails)
+            coinFace = "tails"
+        } else {
+            coin.setImageResource(R.drawable.heads)
+            coinFace = "heads"
+        }
     }
 
     fun DefaultSetting() {
