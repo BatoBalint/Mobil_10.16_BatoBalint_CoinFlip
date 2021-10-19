@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     var win = 0
     var lose = 0
     var coinFace = "heads"
+    var animationPlaying = false
 
 
 
@@ -53,7 +54,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun FejTipp() {
-        CoinAnimation()
+        if (!animationPlaying) {
+            var rnd = Random()
+            CoinAnimation((rnd.nextInt(5) + 5) * 2)
+        }
     }
 
     fun IrasTipp() {
@@ -61,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun CoinAnimation(rnd : Int) {
+        animationPlaying = true
         var speed : Long = 100
         var tickCounter = 0
         val timer = object: CountDownTimer((rnd * speed).toLong(), speed) {
@@ -68,13 +73,14 @@ class MainActivity : AppCompatActivity() {
                 if (tickCounter % 2 == 0) {
                     coin.animate().scaleX(0.02F).duration = speed/2
                 } else {
-                    if (millisUntilFinished < 4900F) ChangeCoinFace()
+                    if (millisUntilFinished < (rnd * speed) - 50) ChangeCoinFace()
                     coin.animate().scaleX(1F).duration = speed/2
                 }
                 tickCounter++
             }
 
             override fun onFinish() {
+                animationPlaying = false
                 Results()
             }
         }
